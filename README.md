@@ -1,8 +1,8 @@
 Everything should be well-commented.
 
-1 ``setup.py`` extracts training data and runs it through Llama to get activations.
-2 ``train_probes.py`` trains a linear probe on that data.
-3 ``benchmark.py`` runs these probes against some other deception benchmarks
+1. ``setup.py`` extracts training data and runs it through Llama to get activations.
+2. ``train_probes.py`` trains a linear probe on that data.
+3. ``benchmark.py`` runs these probes against some other deception benchmarks
 
 ``run.sh`` runs all three in order.
 
