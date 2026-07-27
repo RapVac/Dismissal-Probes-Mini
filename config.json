@@ -1,0 +1,10 @@
+{
+	"project_home":"/home/monkeyuser/Coding/ai_research/dismissal_probes_v2/",
+	"activation_dataset":"dismissal_triplets_700.jsonl",	
+	"model_id":"Qwen/Qwen3-8B",
+	"layers":[0,22],
+
+	"stored_data":"stored_data/",
+	"training_data":"training_data/",
+	"scripts":"scripts/"
+}
