@@ -1,7 +1,7 @@
 import torch
 import tqdm
 
-from run_activations import get_prompt, init_model
+from scripts.run_activations import get_prompt, init_model
 
 from datasets import load_dataset
 from transformers import AutoModelForCausalLM, AutoTokenizer
