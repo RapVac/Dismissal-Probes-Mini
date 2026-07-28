@@ -59,7 +59,6 @@ class DeceptionBench:
                                                             add_generation_prompt=True,
                                                             return_tensors="pt")
                 output = self.run_single_example(prompt)
-                output = self.tokenizer.batch_decode(output)[0]
                 results.append([prompt, output])
         
         return results
