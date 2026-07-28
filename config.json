@@ -1,7 +1,7 @@
 {
 	"project_home":"/kaggle/working/Dismissal-Probes-Mini/",
 	"activation_dataset":"dismissal_triplets_6k.jsonl",	
-	"model_id":"mistralai/Mistral-7B-Instruct-v0.3",
+	"model_id":"Qwen/Qwen3-8B",
 	"layers":[22],
 
 	"stored_data":"stored_data/",

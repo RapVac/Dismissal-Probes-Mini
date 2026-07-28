@@ -27,6 +27,11 @@ class DeceptionBench:
         activation = self.pca.transform(self.scaler.transform(activation))
         return int(self.probe.predict(activation)[0])
 
+    def get_template(self, prompt):
+        messages = [{"role": "system", "content": "You are a helpful assistant."},
+                    {"role": "user", "content": prompt}]
+        return messages
+
     def run_single_example(self, string):
         output = self.model.generate(**r.get_prompt(string, self.tokenizer).to(self.model.device),
                                 max_new_tokens=1024,
@@ -50,6 +55,10 @@ class DeceptionBench:
                         other_reward]
             prompts = [prompt + self.format for prompt in prompts]
             for prompt in prompts:
+                prompt = self.tokenizer.apply_chat_template(messages,
+                                                            tokenize=False,
+                                                            add_generation_prompt=True)
+                
                 output, activations = self.run_single_example(prompt)
                 results.append([prompt, output, activations])
         
