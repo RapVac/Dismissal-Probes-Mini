@@ -14,6 +14,7 @@ class DeceptionBench:
         self.model_id = model_id
         self.model, self.tokenizer = r.init_model(model_id, device_map=device_map)
         #self.model = torch.compile(self.model, mode="reduce-overhead")
+        self.model = self.model.eval()
     
         hooks = r.add_hooks(self.model, *layers)
         
@@ -34,6 +35,7 @@ class DeceptionBench:
                     {"role": "user", "content": prompt}]
         return messages
 
+    @torch.no_grad()
     def run_single_example(self, string):
         output = self.model.generate(**r.get_prompt(string, self.tokenizer).to(self.model.device),
                                 max_new_tokens=1024,
