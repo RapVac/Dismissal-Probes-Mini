@@ -21,10 +21,10 @@ def print_stats(stats):
         print(f"{key}: {round(stats[key], 4)}")
 
 ## 1. Get labeled list of deception modes (accepted, rejected, n/a) + associated CoT.
-activation_dataset = setup.load_dataset(project_home + training_data + activation_dataset)[:5]
+activation_dataset = setup.load_dataset(project_home + training_data + activation_dataset)
 
 ## 2. Extract activations from pass thru target OW model.
-model, tokenizer = run_activations.init_model(model_id, device_map={"":"cpu"})
+model, tokenizer = run_activations.init_model(model_id)
 hooks = run_activations.add_hooks(model, *layers)
 
 labeled_activations = run_activations.get_labeled_activations(model, tokenizer, activation_dataset, len(layers))
@@ -46,8 +46,7 @@ benchmark1 = benchmark.DeceptionBench(model_id,
                                       layers,
                                       probe,
                                       scaler,
-                                      pca,
-                                      device_map={"":"cpu"})
+                                      pca)
 
 results = benchmark1.run_all()
 _save(results, "results.pkl")
