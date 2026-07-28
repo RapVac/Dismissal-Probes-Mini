@@ -7,8 +7,7 @@ def init_model(model_id, device_map="auto"):
     tokenizer = AutoTokenizer.from_pretrained(model_id)
     model = AutoModelForCausalLM.from_pretrained(model_id,
                                              device_map=device_map,
-                                             dtype=torch.float16,
-                                             low_cpu_mem_usage=True)
+                                             dtype=torch.float16)
     return model, tokenizer
 
 activations = []
