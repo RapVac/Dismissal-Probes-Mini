@@ -9,7 +9,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 
-class Hook:
+class ToggleableHook:
     def __init__(self):
         self.active = True
         self.activations = []
@@ -40,7 +40,7 @@ class DeceptionBench:
 
         self.hooks = []
         for layer in layers:
-            self.hooks.append(self.model.model.layers[layer].register_forward_hook(Hook()))
+            self.hooks.append(self.model.model.layers[layer].register_forward_hook(ToggleableHook))
 
         self.hook_handler = HookHandler(*self.hooks)
         
