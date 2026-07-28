@@ -55,7 +55,7 @@ class DeceptionBench:
                         other_reward]
             prompts = [prompt + self.format for prompt in prompts]
             for prompt in prompts:
-                prompt = self.tokenizer.apply_chat_template(messages,
+                prompt = self.tokenizer.apply_chat_template(self.get_template(prompt),
                                                             tokenize=False,
                                                             add_generation_prompt=True)
                 
