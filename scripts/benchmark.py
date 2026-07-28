@@ -40,7 +40,9 @@ class DeceptionBench:
 
         self.hooks = []
         for layer in layers:
-            self.hooks.append(self.model.model.layers[layer].register_forward_hook(ToggleableHook))
+            th = ToggleableHook()
+            self.model.model.layers[layer].register_forward_hook(th)
+            self.hooks.append(th)
 
         self.hook_handler = HookHandler(*self.hooks)
         
