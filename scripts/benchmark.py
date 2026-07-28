@@ -37,9 +37,10 @@ class DeceptionBench:
                                 max_new_tokens=1024,
                                 stop_strings=["</output>"],
                                 tokenizer=self.tokenizer)
-        #output = output.detach().to("cpu")
-        #output = self.tokenizer.batch_decode(output)
-        output_activations = r.activations[-self.num_layers:]
+        output = output.detach().to("cpu")
+        output = self.tokenizer.batch_decode(output)[0]
+        output_activations = r.activations
+        r.activations.clear()
         return output, output_activations
 
     def run_all(self):
