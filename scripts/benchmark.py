@@ -12,8 +12,10 @@ class DeceptionBench:
     def __init__(self, model_id, layers, probe, scaler, pca, device_map="auto"):
         self.model_id = model_id
         self.model, self.tokenizer = r.init_model(model_id, device_map=device_map)
-        hooks = r.add_hooks(model, *layers)
-
+        hooks = r.add_hooks(self.model, *layers)
+        
+        self.layers = layers
+        self.num_layers = len(self.layers)
         self.probe = probe
         self.scaler = scaler
         self.pca = pca
@@ -30,8 +32,7 @@ class DeceptionBench:
                                 stop_strings=["</output>"],
                                 tokenizer=self.tokenizer)
         output = self.tokenizer.batch_decode(output)[0]
-        output_activations = r.activations
-        r.activations.clear()
+        output_activations = r.activations[-self.num_layers]
         return output, output_activations
 
     def run_all(self):
