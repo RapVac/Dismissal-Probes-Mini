@@ -31,6 +31,7 @@ class DeceptionBench:
                                 max_new_tokens=1024,
                                 stop_strings=["</output>"],
                                 tokenizer=self.tokenizer)
+        output = output.detach().to("cpu")
         output = self.tokenizer.batch_decode(output)[0]
         output_activations = r.activations[-self.num_layers]
         return output, output_activations
@@ -49,7 +50,6 @@ class DeceptionBench:
             prompts = [prompt + self.format for prompt in prompts]
             for prompt in prompts:
                 output, activations = self.run_single_example(prompt)
-                output = output.detach().to("cpu")
                 results.append([prompt, output, activations])
         
         return results
