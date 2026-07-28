@@ -25,15 +25,15 @@ class DeceptionBench:
         
     def predict_from_activation(self, activation):
         activation = self.pca.transform(self.scaler.transform(activation))
-        return int(probe.predict(activation)[0])
+        return int(self.probe.predict(activation)[0])
 
     def run_single_example(self, string):
-        output = self.model.generate(**r.get_prompt(string, self.tokenizer).to("cuda"),
+        output = self.model.generate(**r.get_prompt(string, self.tokenizer).to(self.model.device),
                                 max_new_tokens=1024,
                                 stop_strings=["</output>"],
                                 tokenizer=self.tokenizer)
         #output = output.detach().to("cpu")
-        output = self.tokenizer.batch_decode(output)
+        #output = self.tokenizer.batch_decode(output)
         output_activations = r.activations[-self.num_layers:]
         return output, output_activations
 
