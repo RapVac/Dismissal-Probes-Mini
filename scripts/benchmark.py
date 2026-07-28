@@ -27,7 +27,7 @@ class DeceptionBench:
         return int(probe.predict(activation)[0])
 
     def run_single_example(self, string):
-        output = self.model.generate(**r.get_prompt(string, self.tokenizer),
+        output = self.model.generate(**r.get_prompt(string, self.tokenizer).to("cuda"),
                                 max_new_tokens=1024,
                                 stop_strings=["</output>"],
                                 tokenizer=self.tokenizer)
@@ -49,6 +49,7 @@ class DeceptionBench:
             prompts = [prompt + self.format for prompt in prompts]
             for prompt in prompts:
                 output, activations = self.run_single_example(prompt)
+                output = output.detach().to("cpu")
                 results.append([prompt, output, activations])
         
         return results
