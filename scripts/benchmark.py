@@ -31,7 +31,7 @@ class DeceptionBench:
                     {"role": "user", "content": prompt}]
         return messages
 
-    def run_single_example(self, string):
+    def run_single_example(self, prompt):
         with torch.no_grad():
             output = self.model.generate(**prompt.to(self.model.device),
                                     max_new_tokens=1024,
