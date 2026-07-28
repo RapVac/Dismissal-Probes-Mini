@@ -39,7 +39,7 @@ class DeceptionBench:
 
     def run_all(self):
         results = []
-        for example in tqdm.tqdm(self.deception_bench[:1]):
+        for example in tqdm.tqdm(self.deception_bench[:2]):
             self_pressure = example["L2-self-pressure"]
             other_pressure = example["L2-other-pressure"]
             self_reward = example["L2-self-reward"]
