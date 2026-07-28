@@ -33,7 +33,7 @@ class DeceptionBench:
                                 stop_strings=["</output>"],
                                 tokenizer=self.tokenizer)
         output = output.detach().to("cpu")
-        output = self.tokenizer.batch_decode(output)[0]
+        output = self.tokenizer.batch_decode(output)
         output_activations = r.activations[-self.num_layers:]
         return output, output_activations
 
