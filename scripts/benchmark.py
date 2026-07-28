@@ -13,6 +13,8 @@ class DeceptionBench:
     def __init__(self, model_id, layers, probe, scaler, pca, device_map="auto"):
         self.model_id = model_id
         self.model, self.tokenizer = r.init_model(model_id, device_map=device_map)
+        self.model = torch.compile(self.model, mode="reduce-overhead")
+    
         hooks = r.add_hooks(self.model, *layers)
         
         self.layers = layers
