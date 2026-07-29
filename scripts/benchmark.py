@@ -54,7 +54,7 @@ class DeceptionBench:
             outputs = outputs.detach().to("cpu", non_blocking=True)
             #decoded_outputs = self.tokenizer.batch_decode(outputs, skip_special_tokens=True)
 
-        return output
+        return outputs
 
 
     def run_all(self, batch_size=4):
