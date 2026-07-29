@@ -9,7 +9,7 @@ globals().update(configuration)
 
 def _save(l, name):
     with open(project_home + stored_data + name, "wb") as f:
-        pickle.dump(l, f)
+        pickle.dump(l, f, protocol=pickle.HIGHEST_PROTOCOL)
 
 def _load(name):
     with open(project_home + stored_data + name, "rb") as f:
