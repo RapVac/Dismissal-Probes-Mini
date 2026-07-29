@@ -16,10 +16,20 @@ def hook(module, input, output):
     ## Grabs last token activations fromr residual stream
     activations.append(output[:, -1, :].detach().to('cpu'))
 
+def complete_hook(module, input, output):
+    activations.append(output.detach().to('cpu'))
+
 def add_hooks(model, *layers):
     hooks = []
     for layer in layers:
         hooks.append(model.model.layers[layer].register_forward_hook(hook))
+
+    return hooks
+
+def add_complete_hooks(model, *layers):
+    hooks = []
+    for layer in layers:
+        hooks.append(model.model.layers[layer].register_forward_hook(complete_hook))
 
     return hooks
 

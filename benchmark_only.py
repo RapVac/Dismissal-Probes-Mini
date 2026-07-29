@@ -20,13 +20,26 @@ probe = _load("probe.pkl")
 scaler = _load("scaler.pkl")
 pca = _load("pca.pkl")
 
-benchmark1 = benchmark.DeceptionBench(model_id,
-                                      layers,
-                                      probe,
-                                      scaler,
-                                      pca)
+##benchmark1 = benchmark.DeceptionBench(model_id,
+##                                      layers,
+##                                      probe,
+##                                      scaler,
+##                                      pca)
 
 
-benchmark1.prepare_dataset()
-results = benchmark1.run_all(24)
-_save(results, "results.pkl")
+#benchmark1.prepare_dataset()
+#results = benchmark1.run_all(24)
+#_save(results, "results.pkl")
+
+
+##====================================
+
+results = _load("results.pkl")
+
+results = [("deception_bench", result) for result in results]
+model, tokenizer = run_activations.init_model(model_id)
+hooks = run_activations.add_hooks(model, *layers)
+
+results = run_activations.get_labeled_activations(model, tokenizer, results, len(layers))
+results = run_activations.get_activation_by_index(results, 0)
+_save(labeled_activations, "benchmark_activations.pkl")
