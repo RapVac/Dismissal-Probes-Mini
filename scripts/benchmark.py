@@ -55,7 +55,7 @@ class DeceptionBench:
                                          #stop_strings=["</output>"],
                                          tokenizer=self.tokenizer)
             outputs = outputs.detach().to("cpu")
-            decoded_outputs = tokenizer.batch_decode(outputs, skip_special_tokens=True)
+            decoded_outputs = self.tokenizer.batch_decode(outputs, skip_special_tokens=True)
 
         return decoded_outputs
 
