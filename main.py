@@ -32,7 +32,7 @@ labeled_activations = run_activations.get_activation_by_index(labeled_activation
 _save(labeled_activations, "activations.pkl")
 
 ## 3. Train linear probes.
-x1, y1 = train_probes.labeled_dataset_to_x_y_pairs(labeled_activations, "considered_executed", "no_consideration", 0)
+x1, y1 = train_probes.labeled_dataset_to_x_y_pairs(labeled_activations, "considered_executed", "no_consideration", 1)
 
 scaler, pca, probe, stats = train_probes.fit_probe(x1, y1)
 print_stats(stats)

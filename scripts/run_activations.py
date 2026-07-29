@@ -6,8 +6,9 @@ from tqdm import tqdm
 def init_model(model_id, device_map="auto"):
     tokenizer = AutoTokenizer.from_pretrained(model_id)
     model = AutoModelForCausalLM.from_pretrained(model_id,
-                                             device_map=device_map,
-                                             dtype=torch.float16)
+                                                 device_map=device_map,
+                                                 dtype=torch.float16,
+                                                 attn_implementation="sdpa")
     return model, tokenizer
 
 activations = []
