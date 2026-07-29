@@ -68,7 +68,7 @@ class DeceptionBench:
         
         for i in tqdm.tqdm(range(0, len(self.deception_bench), batch_size)):
             batch_strings = self.deception_bench[i: i + batch_size]
-            batch_outputs = self.run_single_example(prompt.to(self.model.device))
+            batch_outputs = self.run_batch(batch_strings)
 
             for prompt, output in zip(batch_strings, batch_outputs):
                 results.append([prompt, output])
