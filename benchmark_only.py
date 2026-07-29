@@ -27,5 +27,6 @@ benchmark1 = benchmark.DeceptionBench(model_id,
                                       pca)
 
 
-results = benchmark1.run_all(tokenized_data=_load("tokenized.pkl"))
+benchmark1.prepare_dataset()
+results = benchmark1.run_all()
 _save(results, "results.pkl")
