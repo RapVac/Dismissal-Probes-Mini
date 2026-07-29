@@ -36,9 +36,8 @@ pca = _load("pca.pkl")
 
 results = _load("results.pkl")
 
-results = [("deception_bench", result) for result in results]
 model, tokenizer = run_activations.init_model(model_id)
-hooks = run_activations.add_hooks(model, *layers)
+hooks = run_activations.add_complete_hooks(model, *layers)
 
 results = run_activations.get_labeled_activations(model, tokenizer, results, len(layers))
 results = run_activations.get_activation_by_index(results, 0)
