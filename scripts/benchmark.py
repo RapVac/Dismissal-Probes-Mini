@@ -63,7 +63,7 @@ class DeceptionBench:
         
         for i in tqdm.tqdm(range(0, len(self.deception_bench), batch_size)):
             batch_prompts = self.deception_bench[i: i + batch_size]
-            batch_outputs = self.run_batch(batch_strings)
+            batch_outputs = self.run_batch(batch_prompts)
 
             prompts.extend(batch_prompts)
             raw_outputs.extend(batch_outputs)
