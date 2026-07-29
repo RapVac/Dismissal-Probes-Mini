@@ -25,12 +25,10 @@ def print_stats(stats):
 ##scaler = _load("scaler.pkl")
 ##pca = _load("pca.pkl")
 
-benchmark1 = benchmark.DeceptionBench(model_id,
-                                      layers)
-
+benchmark1 = benchmark.DeceptionBench(model_id)
 
 benchmark1.prepare_dataset()
-results = benchmark1.run_all(24)
+results = benchmark1.run_all()
 save(results, "results.pkl")
 
 
