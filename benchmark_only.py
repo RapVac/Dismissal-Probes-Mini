@@ -29,8 +29,8 @@ benchmark1 = benchmark.DeceptionBench(model_id,
                                       layers)
 
 
-enchmark1.prepare_dataset()
-esults = benchmark1.run_all(24)
+benchmark1.prepare_dataset()
+results = benchmark1.run_all(24)
 save(results, "results.pkl")
 
 
