@@ -8,6 +8,10 @@ from sklearn.metrics import classification_report, accuracy_score, precision_sco
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
+def print_stats(stats):
+    for key in stats.keys():
+        print(f"{key}: {round(stats[key], 4)}")
+
 def labeled_dataset_to_x_y_pairs(labeled_dataset, class_a, class_b, default_val):
     x = []
     y = []
@@ -61,8 +65,8 @@ def train_probe(selected_layer, layers, labeled_deception_examples, model, token
     labeled_activations = run_activations.get_activation_by_index(labeled_activations, selected_layer)
 
     ## 3. Train linear probes.
-    x1, y1 = train_probes.labeled_dataset_to_x_y_pairs(labeled_activations, "considered_executed", "no_consideration", 0)
+    x1, y1 = labeled_dataset_to_x_y_pairs(labeled_activations, "considered_executed", "no_consideration", 0)
 
-    scaler, pca, probe, stats = train_probes.fit_probe(x1, y1)
+    scaler, pca, probe, stats = fit_probe(x1, y1)
     print_stats(stats)
     return scaler, pca, probe

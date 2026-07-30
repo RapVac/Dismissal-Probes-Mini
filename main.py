@@ -16,10 +16,6 @@ def _load(name):
         file = pickle.load(f)
     return file
 
-def print_stats(stats):
-    for key in stats.keys():
-        print(f"{key}: {round(stats[key], 4)}")
-
 ## 1. Get labeled list of deception modes (accepted, rejected, n/a) + associated CoT.
 ## (class, prompt)
 dataset = setup.load_dataset(project_home + training_data + activation_dataset)
