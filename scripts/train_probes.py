@@ -73,6 +73,6 @@ def train_probe(layers, labeled_deception_examples, model, tokenizer):
         print(f"Layer: {layer}")
         print_stats(stats)
         print("="*16)
-        layer_probes.append(scaler, pca, probe)
+        layer_probes.append((scaler, pca, probe))
 
     return layer_probes

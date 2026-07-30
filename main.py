@@ -35,7 +35,6 @@ for (scaler, pca, probe, layer) in zip(layer_probes, layers):
     _save(scaler, f"scaler_l{layer}.pkl")
     _save(pca, f"pca_l{layer}.pkl")
 
-
 ## 4. Run Against benchmarks.
 benchmark1 = benchmark.DeceptionBench(model_id)
 
