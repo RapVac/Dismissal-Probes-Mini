@@ -44,7 +44,7 @@ class DeceptionBench:
         print("="*50)
         print(f"[+] Started benchmark... @ {time.asctime()}")
         print("="*50)
-        outputs = self.llm.generate(self.deception_bench, sampling_params)
+        outputs = self.model.generate(self.deception_bench, sampling_params)
         
         results = []
         for output in outputs:
