@@ -24,15 +24,14 @@ def print_stats(stats):
 ## (class, prompt)
 dataset = setup.load_dataset(project_home + training_data + activation_dataset)
 
-## 2. Pass thru target model
-## 3. Train probes
+## 2. Extract activations from pass thru target OW model.
 model, tokenizer = run_activations.init_model(model_id)
 hooks = run_activations.add_hooks(model, *layers)
 
 probes = {}
 
-for layer in layers:
-    scaler, pca, probe = train_probes.train_probe(layer, layers, dataset, model, tokenizer)
+for i, layer in enumerate(layers):
+    scaler, pca, probe = train_probes.train_probe(i, layers, dataset, model, tokenizer)
     probes[layer] = (scaler, pca, probe)
 
     _save(probe, f"probe_l{layer}.pkl")
@@ -48,9 +47,9 @@ deception_bench_output = benchmark1.run_all()
 _save(deception_bench_output, "deception_bench_output.pkl")
 benchmark1.kill_vllm()
 
-for layer in layers:
+for i, layer in enumerate(layers):
     results = analyze.benchmark_output_to_probe_scores(deception_bench_output,
-                                                       layer,
+                                                       i,
                                                        layers,
                                                        model_id,
                                                        probes[layer][0],
