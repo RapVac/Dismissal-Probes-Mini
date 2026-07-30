@@ -1,7 +1,7 @@
 import json
 import pickle
 
-from scripts import setup, run_activations, train_probes, benchmark
+from scripts import setup, run_activations, train_probes, benchmark, analyze
 
 ## 0. Load config file.
 configuration = json.loads(open("./config.json", "r").read().strip())
@@ -21,32 +21,40 @@ def print_stats(stats):
         print(f"{key}: {round(stats[key], 4)}")
 
 ## 1. Get labeled list of deception modes (accepted, rejected, n/a) + associated CoT.
-activation_dataset = setup.load_dataset(project_home + training_data + activation_dataset)
+## (class, prompt)
+dataset = setup.load_dataset(project_home + training_data + activation_dataset)
 
-## 2. Extract activations from pass thru target OW model.
+## 2. Pass thru target model
+## 3. Train probes
 model, tokenizer = run_activations.init_model(model_id)
 hooks = run_activations.add_hooks(model, *layers)
 
-labeled_activations = run_activations.get_labeled_activations(model, tokenizer, activation_dataset, len(layers))
-labeled_activations = run_activations.get_activation_by_index(labeled_activations, 0)
-_save(labeled_activations, "activations.pkl")
+probes = {}
 
-## 3. Train linear probes.
-x1, y1 = train_probes.labeled_dataset_to_x_y_pairs(labeled_activations, "considered_executed", "no_consideration", 1)
+for layer in layers:
+    scaler, pca, probe = train_probes.train_probe(layer, layers, dataset, model, tokenizer)
+    probes[layer] = (scaler, pca, probe)
 
-scaler, pca, probe, stats = train_probes.fit_probe(x1, y1)
-print_stats(stats)
+    _save(probe, f"probe_l{layer}.pkl")
+    _save(scaler, f"scaler_l{layer}.pkl")
+    _save(pca, f"pca_l{layer}.pkl")
 
-_save(probe, "probe.pkl")
-_save(scaler, "scaler.pkl")
-_save(pca, "pca.pkl")
 
 ## 4. Run Against benchmarks.
-benchmark1 = benchmark.DeceptionBench(model_id,
-                                      layers,
-                                      probe,
-                                      scaler,
-                                      pca)
+benchmark1 = benchmark.DeceptionBench(model_id)
 
-results = benchmark1.run_all()
-_save(results, "results.pkl")
+benchmark1.prepare_dataset()
+deception_bench_output = benchmark1.run_all()
+_save(deception_bench_output, "deception_bench_output.pkl")
+benchmark1.kill_vllm()
+
+for layer in layers:
+    results = analyze.benchmark_output_to_probe_scores(deception_bench_output,
+                                                       layer,
+                                                       layers,
+                                                       model_id,
+                                                       probes[layer][0],
+                                                       probes[layer][1],
+                                                       probes[layer][2])
+    _save(results, f"results_l{layer}.pkl")
+

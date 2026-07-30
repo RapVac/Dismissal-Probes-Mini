@@ -1,5 +1,7 @@
 import torch
 
+from scripts import run_activations
+
 from sklearn.decomposition import PCA
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report, accuracy_score, precision_score, recall_score, roc_auc_score
@@ -48,3 +50,19 @@ def fit_probe(x, y, test_size=0.2, random_state=42, probe_iter=1000, get_probe_s
         output.append(stats)
 
     return output
+
+def train_probe(selected_layer, layers, labeled_deception_examples, model, tokenizer):
+    ## (class, activations[])
+    labeled_activations = run_activations.get_labeled_activations(model,
+                                                                  tokenizer,
+                                                                  labeled_deception_examples,
+                                                                  len(layers))
+    ## (class, activations[selected_layer])
+    labeled_activations = run_activations.get_activation_by_index(labeled_activations, selected_layer)
+
+    ## 3. Train linear probes.
+    x1, y1 = train_probes.labeled_dataset_to_x_y_pairs(labeled_activations, "considered_executed", "no_consideration", 0)
+
+    scaler, pca, probe, stats = train_probes.fit_probe(x1, y1)
+    print_stats(stats)
+    return scaler, pca, probe
