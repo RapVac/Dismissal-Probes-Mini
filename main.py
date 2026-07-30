@@ -21,19 +21,20 @@ def _load(name):
 dataset = setup.load_dataset(project_home + training_data + activation_dataset)
 
 ## 2. Extract activations from pass thru target OW model.
-model, tokenizer = run_activations.init_model(model_id)
+model, tokenizer = run_activations.init_model(model_id, device_map={"":"cpu"})
 hooks = run_activations.add_hooks(model, *layers)
 
 probes = {}
 
 layer_probes = train_probes.train_probe(layers, dataset, model, tokenizer)
 
-for (scaler, pca, probe, layer) in zip(layer_probes, layers):
+for ((scaler, pca, probe), layer) in zip(layer_probes, layers):
     probes[layer] = (scaler, pca, probe)
 
     _save(probe, f"probe_l{layer}.pkl")
     _save(scaler, f"scaler_l{layer}.pkl")
     _save(pca, f"pca_l{layer}.pkl")
+
 
 ## 4. Run Against benchmarks.
 benchmark1 = benchmark.DeceptionBench(model_id)
