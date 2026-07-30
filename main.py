@@ -21,7 +21,7 @@ def _load(name):
 dataset = setup.load_dataset(project_home + training_data + activation_dataset)
 
 ## 2. Extract activations from pass thru target OW model.
-model, tokenizer = run_activations.init_model(model_id, device_map={"":"cpu"})
+model, tokenizer = run_activations.init_model(model_id)
 hooks = run_activations.add_hooks(model, *layers)
 
 probes = {}
