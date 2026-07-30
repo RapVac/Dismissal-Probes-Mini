@@ -36,8 +36,8 @@ for ((scaler, pca, probe), layer) in zip(layer_probes, layers):
     _save(scaler, f"scaler_l{layer}.pkl")
     _save(pca, f"pca_l{layer}.pkl")
 
-
 ## 4. Run Against benchmarks.
+print(f"[+] Started benchmark...")
 benchmark1 = benchmark.DeceptionBench(model_id)
 
 benchmark1.prepare_dataset()
@@ -45,15 +45,15 @@ deception_bench_output = benchmark1.run_all()
 _save(deception_bench_output, "deception_bench_output.pkl")
 benchmark1.kill_vllm()
 
-##print(f"[+] Started analysis...")
-##for i, layer in enumerate(layers):
-##    print(f"[+] {time.asctime()} | Now on layer {layer}.")
-##    results = analyze.benchmark_output_to_probe_scores(deception_bench_output,
-##                                                       i,
-##                                                       layers,
-##                                                       model_id,
-##                                                       probes[layer][0],
-##                                                       probes[layer][1],
-##                                                       probes[layer][2])
-##    _save(results, f"results_l{layer}.pkl")
+print(f"[+] Started analysis...")
+for i, layer in enumerate(layers):
+    print(f"[+] {time.asctime()} | Now on layer {layer}.")
+    results = analyze.benchmark_output_to_probe_scores(deception_bench_output,
+                                                       i,
+                                                       layers,
+                                                       model_id,
+                                                       probes[layer][0],
+                                                       probes[layer][1],
+                                                       probes[layer][2])
+    _save(results, f"results_l{layer}.pkl")
 
