@@ -26,8 +26,9 @@ hooks = run_activations.add_hooks(model, *layers)
 
 probes = {}
 
-for i, layer in enumerate(layers):
-    scaler, pca, probe = train_probes.train_probe(i, layers, dataset, model, tokenizer)
+layer_probes = train_probes.train_probe(layers, dataset, model, tokenizer)
+
+for (scaler, pca, probe, layer) in zip(layer_probes, layers):
     probes[layer] = (scaler, pca, probe)
 
     _save(probe, f"probe_l{layer}.pkl")

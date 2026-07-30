@@ -55,18 +55,24 @@ def fit_probe(x, y, test_size=0.2, random_state=42, probe_iter=1000, get_probe_s
 
     return output
 
-def train_probe(selected_layer, layers, labeled_deception_examples, model, tokenizer):
+def train_probe(layers, labeled_deception_examples, model, tokenizer):
     ## (class, activations[])
     labeled_activations = run_activations.get_labeled_activations(model,
                                                                   tokenizer,
                                                                   labeled_deception_examples,
                                                                   len(layers))
-    ## (class, activations[selected_layer])
-    labeled_activations = run_activations.get_activation_by_index(labeled_activations, selected_layer)
+    layer_probes = []
+    ## for each (class, activations[i])
+    for i, layer in enumerate(layers):
+        labeled_activations = run_activations.get_activation_by_index(labeled_activations, i)
 
-    ## 3. Train linear probes.
-    x1, y1 = labeled_dataset_to_x_y_pairs(labeled_activations, "considered_executed", "no_consideration", 0)
+        ## 3. Train linear probes.
+        x1, y1 = labeled_dataset_to_x_y_pairs(labeled_activations, "considered_executed", "no_consideration", 0)
 
-    scaler, pca, probe, stats = fit_probe(x1, y1)
-    print_stats(stats)
-    return scaler, pca, probe
+        scaler, pca, probe, stats = fit_probe(x1, y1)
+        print(f"Layer: {layer}")
+        print_stats(stats)
+        print("="*16)
+        layer_probes.append(scaler, pca, probe)
+
+    return layer_probes
