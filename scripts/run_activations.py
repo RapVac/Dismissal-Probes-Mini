@@ -39,7 +39,7 @@ def get_prompt(prompt, tokenizer):
 def get_labeled_activations(model, tokenizer, dataset, num_layers):
     labeled_activations = []
     with torch.no_grad():
-        for i, (classification, convo) in tqdm(enumerate(dataset), total=len(dataset), desc="Activations from labeled data: "):
+        for i, (classification, convo) in tqdm(enumerate(dataset), total=len(dataset), desc="Activations from data: "):
             model(**get_prompt(convo, tokenizer))
             labeled_activations.append((classification, activations[-num_layers:]))
 
