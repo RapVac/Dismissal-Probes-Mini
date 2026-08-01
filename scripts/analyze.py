@@ -39,7 +39,7 @@ def benchmark_output_to_probe_scores(benchmark_output, layers, model_id, probes)
     benchmark_activations = run_activations.get_labeled_activations(model, tokenizer, benchmark_output, len(layers))
     results = []    
 
-    for i, layer in enumerate(layer):
+    for i, layer in enumerate(layers):
         layer_results = run_activations.get_activation_by_index(benchmark_activations, i)
         ## Results -> (output, raw_activations)
 
