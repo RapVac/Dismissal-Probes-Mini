@@ -1,6 +1,8 @@
 import json
 import pickle
 import time
+import gc
+import torch
 
 from scripts import setup, run_activations, train_probes, benchmark, analyze
 
@@ -36,6 +38,11 @@ def main():
         _save(probe, f"probe_l{layer}.pkl")
         _save(scaler, f"scaler_l{layer}.pkl")
         _save(pca, f"pca_l{layer}.pkl")
+
+    del model
+    del tokenizer
+    gc.collect()
+    torch.cuda.empty_cache()
 
     ## 4. Run Against benchmarks.
     print(f"[+] Started benchmark...")
