@@ -19,6 +19,11 @@ def _load(name):
         file = pickle.load(f)
     return file
 
+def announce(string):
+    print("="*50)
+    print(string)
+    print("="*50)
+
 def main():
     ## 1. Get labeled list of deception modes (accepted, rejected, n/a) + associated CoT.
     ## (class, prompt)
@@ -45,15 +50,15 @@ def main():
     torch.cuda.empty_cache()
 
     ## 4. Run Against benchmarks.
-    print(f"[+] Started benchmark...")
+    announce(f"[+] Started benchmark...")
     benchmark1 = benchmark.DeceptionBench(model_id)
 
     benchmark1.prepare_dataset()
     deception_bench_output = benchmark1.run_all()
     _save(deception_bench_output, "deception_bench_output.pkl")
     benchmark1.kill_vllm()
-    
-    print(f"[+] Started analysis...")
+
+    announce(f"[+] Started analysis...")
     results = analyze.benchmark_output_to_probe_scores(deception_bench_output,
                                                        layers,
                                                        model_id,
