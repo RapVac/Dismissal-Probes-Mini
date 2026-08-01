@@ -40,7 +40,7 @@ for ((scaler, pca, probe), layer) in zip(layer_probes, layers):
 print(f"[+] Started benchmark...")
 benchmark1 = benchmark.DeceptionBench(model_id)
 
-##benchmark1.prepare_dataset()
+benchmark1.prepare_dataset()
 ##deception_bench_output = benchmark1.run_all()
 ##_save(deception_bench_output, "deception_bench_output.pkl")
 ##benchmark1.kill_vllm()
