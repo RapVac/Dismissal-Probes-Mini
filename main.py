@@ -64,7 +64,7 @@ def main():
                                                        model_id,
                                                        probes)
 
-    #_save(results, f"results_l{layer}.pkl")
+    _save(results, f"results_all.pkl")
 
 if __name__ == "__main__":
     main()
