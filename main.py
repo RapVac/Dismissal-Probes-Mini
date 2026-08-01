@@ -54,16 +54,12 @@ def main():
     benchmark1.kill_vllm()
     
     print(f"[+] Started analysis...")
-    for i, layer in enumerate(layers):
-        print(f"[+] {time.asctime()} | Now on layer {layer}.")
-        results = analyze.benchmark_output_to_probe_scores(deception_bench_output,
-                                                           i,
-                                                           layers,
-                                                           model_id,
-                                                           probes[layer][0],
-                                                           probes[layer][1],
-                                                           probes[layer][2])
-        _save(results, f"results_l{layer}.pkl")
+    results = analyze.benchmark_output_to_probe_scores(deception_bench_output,
+                                                       layers,
+                                                       model_id,
+                                                       probes)
+
+    #_save(results, f"results_l{layer}.pkl")
 
 if __name__ == "__main__":
     main()
