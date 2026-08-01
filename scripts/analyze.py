@@ -65,3 +65,5 @@ def benchmark_output_to_probe_scores(benchmark_output, layers, model_id, probes)
 
         results.append(scored)
 
+    return results
+

@@ -21,7 +21,7 @@ def _load(name):
 
 def announce(string):
     print("="*50)
-    print(string)
+    print(string + f" | {time.asctime()}")
     print("="*50)
 
 def main():
