@@ -41,8 +41,7 @@ def benchmark_output_to_probe_scores(benchmark_output, selected_layer, layers, m
     ## Results -> (output, raw_activations)[]
 
     ## b. Syntactic chunking.
-    
-    ## 
+
     chunked = []
     for (output, activations) in tqdm.tqdm(benchmark_activations, desc="Breaking activations into syntactic chunks: "):
         chunks = get_syntactic_chunks(output, activations.squeeze(0), model_id, tokenizer)

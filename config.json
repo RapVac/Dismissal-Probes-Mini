@@ -1,6 +1,6 @@
 {
 	"project_home":"/kaggle/working/Dismissal-Probes-Mini/",
-	"activation_dataset":"dismissal_triplets_6k.jsonl",	
+	"activation_dataset":"dismissal_triplets_700.jsonl",	
 	"model_id":"Qwen/Qwen3-8B",
 	"layers":[16,22],
 
