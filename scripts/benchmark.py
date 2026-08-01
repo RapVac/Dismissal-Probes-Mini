@@ -16,7 +16,8 @@ class DeceptionBench:
                          tensor_parallel_size=2,
                          dtype="float16",
                          enforce_eager=True,
-                         max_model_len=4096)
+                         max_model_len=4096,
+                         gpu_memory_utilization=0.8)
 
     def prepare_dataset(self):
         data = []
