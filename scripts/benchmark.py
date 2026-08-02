@@ -40,15 +40,12 @@ class DeceptionBench:
 
     def run_all(self):
         sampling_params = SamplingParams(stop=["</output>"])
-        print("="*50)
-        print(f"[+] Started benchmark... @ {time.asctime()}")
-        print("="*50)
         outputs = self.model.generate(self.deception_bench, sampling_params)
         
         results = []
         for output in outputs:
             prompt = output.prompt
-            generated_text = output.outputs[0].text
+            generated_text = output.outputs#[0].text
             results.append([prompt, generated_text])
             
         return results
